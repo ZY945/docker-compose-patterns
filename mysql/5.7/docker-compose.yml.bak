@@ -1,0 +1,30 @@
+---
+services:
+  mysql:
+    privileged: true 
+    container_name: mysql57
+    image: mysql:5.7.31
+    platform : linux/x86_64
+    restart: always
+    ports:
+      - 33060:3306
+    volumes:
+      - /opt/docker_data/mysql/mysql57/log:/var/log/mysql 
+      - /opt/docker_data/mysql/mysql57/conf/my.cnf:/etc/mysql/my.cnf
+      - /opt/docker_data/mysql/mysql57/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_USER: 'user'
+      MYSQL_PASS: '123456'
+    command: [
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_general_ci',
+        '--max_connections=3000'
+    ]
+    networks:
+      - mybridgeweb
+
+networks:
+
+  mybridgeweb:
+    driver: bridge

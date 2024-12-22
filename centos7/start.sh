@@ -1,0 +1,1 @@
+docker build --platform linux/arm64 -f Dockerfile -t centos7-dev:1.0.0 . 

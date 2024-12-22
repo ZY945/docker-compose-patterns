@@ -1,0 +1,31 @@
+---
+services:
+  # 服务名称为 mongodb，该名称主要用于容器之间服务的 dns 解析
+  mongodb:
+    # 容器的名称为 mymongo
+    container_name: mymongo
+    # 使用的镜像名称
+    image: mongo:latest
+    # 当 docker 服务启动后，自动启动 mongodb 容器
+    # restart: always
+    # 对外映射的端口
+    ports:
+      - "27017:27017"
+    environment:
+      # 初始化一个 root 角色的用户 root 密码是 root
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    # 宿主机硬盘目录映射容器内的存放数据的目录
+    volumes:
+      - ${DOCKER_DATA_PATH}/mongo/data:/data/db
+    # 增加启动参数，--auth，表示连接 mongodb 需要用户名和密码
+    command:
+      - "--auth"
+    networks:  # 网络配置
+      - docker-dev-network  # 加入到 docker-dev-network 网络
+
+networks:  # 网络
+  docker-dev-network:
+      # 如果不存在,就注释external: true,那么会创建先该网络
+      # 否则提示:network docker-dev-network declared as external, but could not be found
+      external: true # 表示网络已存在,无需再次创建.

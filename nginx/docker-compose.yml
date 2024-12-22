@@ -1,0 +1,16 @@
+
+
+---
+services:
+  jsonhelp:
+    image: nginx:1.18
+    container_name: jsonhelp-ng
+    restart: always
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '5g'
+    environment:
+      - NGINX_PORT=80
+    ports:
+      - 8090:80

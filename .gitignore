@@ -1,0 +1,68 @@
+# 排除 java文件夹(目前包含skywalking和arthas-agent的文件,大致400MB,需要后续整理)
+/java
+# Eclipse
+/**/.classpath
+/**/.project
+/**/.settings/
+/**/.myeclipse/
+
+# Intellij
+/**/.idea/
+/**/*.iml
+/**/*.iws
+/**/*.ipr
+
+# NetBeans
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+nbbuild/
+nbdist/
+**/.nb-gradle/
+
+# Mac
+/**/.DS_Store
+
+# Maven
+/**/target/
+
+# Gradle
+/**/.gradle/
+
+# SBT(Simple Build Tool For Scala)
+# http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+.history
+.cache
+.lib/
+
+# STS(Spring tool suite)
+/**/.apt_generated
+/**/.factorypath
+/**/.springBeans
+
+# Webapp
+/**/src/main/webapp/WEB-INF/classes/
+
+# Others
+/**/.svn/
+/**/.externalToolBuilders/
+/**/.recommenders/
+/**/.metadata/
+/**/node_modules/
+out/
+build/
+bin/
+logs/
+dist/
+
+# rebel.xml
+/**/rebel.xml
+/**/.cache-main
+/**/.cache-tests
+/**/dependency-reduced-pom.xml

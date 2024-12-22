@@ -1,0 +1,6 @@
+
+
+PLATFORM=linux/arm64
+DOCKER_DATA_PATH=/Users/dongfeng/docker_data
+MYSQL_PORT=3306
+REDIS_PORT=6379

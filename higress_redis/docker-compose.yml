@@ -1,0 +1,27 @@
+
+
+
+---
+services:
+  higress:
+      #这个镜像包含redis，并且包含了ai-proxy插件
+    image: registry.cn-hangzhou.aliyuncs.com/ztygw/aio-redis:1.4.0-rc.1
+    environment:
+        #开启日志输出
+      - GATEWAY_COMPONENT_LOG_LEVEL=misc:error,wasm:debug
+    ports:
+      #管理页面端口
+      - "8080:8080/tcp"
+        #llm端口
+      - "8001:8001/tcp"
+      #redis端口
+      - "6379:6379/tcp"
+    restart: always
+    networks:  # 网络配置
+      - docker-dev-network  # 加入到 docker-dev-network 网络
+
+networks:  # 网络
+  docker-dev-network:
+      # 如果不存在,就注释external: true,那么会创建先该网络
+      # 否则提示:network docker-dev-network declared as external, but could not be found
+      external: true # 表示网络已存在,无需再次创建.

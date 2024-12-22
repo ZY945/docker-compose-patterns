@@ -1,0 +1,32 @@
+---
+services:
+  mysql5.7:
+    container_name: mysql_57
+    image: mysql:5.7.31
+    privileged: true 
+    platform : ${PLATFORM}
+    # restart: always
+    ports:
+      - 33060:3306
+    volumes:
+      - ${DOCKER_DATA_PATH}/mysql/mysql57/log:/var/log/mysql 
+      - ${DOCKER_DATA_PATH}/mysql/mysql57/conf/my.cnf:/etc/mysql/my.cnf
+      - ${DOCKER_DATA_PATH}/mysql/mysql57/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_USER: 'user'
+      MYSQL_PASS: '123456'
+    command: [
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_general_ci',
+        '--max_connections=3000'
+        # '--max_allowed_packet=64000000'
+    ]
+    networks:  # 网络配置
+      - docker-dev-network  # 加入到 docker-dev-network 网络
+
+networks:  # 网络
+  docker-dev-network:
+      # 如果不存在,就注释external: true,那么会创建先该网络
+      # 否则提示:network docker-dev-network declared as external, but could not be found
+      external: true # 表示网络已存在,无需再次创建.

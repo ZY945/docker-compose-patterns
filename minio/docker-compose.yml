@@ -1,0 +1,24 @@
+
+services:
+  minio:
+    image: minio/minio
+    container_name: minio
+    # restart: always
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    volumes:
+      - ${DOCKER_DATA_PATH}/minio/data:/data
+      - ${DOCKER_DATA_PATH}/minio/config:/root/.minio
+    ports:
+      - "19000:9000"
+      - "19090:9090"
+    command: server /data --console-address ":9090" -address ":9000"
+    networks:  # 网络配置
+      - docker-dev-network  # 加入到 docker-dev-network 网络
+
+networks:  # 网络
+  docker-dev-network:
+      # 如果不存在,就注释external: true,那么会创建先该网络
+      # 否则提示:network docker-dev-network declared as external, but could not be found
+      external: true # 表示网络已存在,无需再次创建.

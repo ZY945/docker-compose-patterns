@@ -1,0 +1,33 @@
+
+---
+
+networks:
+  higress-net:
+    external: false
+
+services:
+  higress:
+    image: higress-registry.cn-hangzhou.cr.aliyuncs.com/higress/all-in-one:1.4.1
+    environment:
+      - CONFIG_TEMPLATE=ai-proxy
+      - DEFAULT_AI_SERVICE=qwen
+      - DASHSCOPE_API_KEY=123123_sk-3b3410b4cc284c7f8449f6cd2c85ec8b
+    networks:
+      - higress-net
+    ports:
+      - "8080:8080/tcp"
+      - "8001:8001/tcp"
+    volumes:
+      - /path-to-local-config-folder:/data
+    restart: always
+  lobechat:
+    image: registry.cn-hangzhou.aliyuncs.com/2456868764/lobe-chat:v1.1.3
+    environment:
+      - CODE=root
+      - OPENAI_API_KEY=unused
+      - OPENAI_PROXY_URL=http://higress:8080/v1
+    networks:
+      - higress-net
+    ports:
+      - "3210:3210/tcp"
+    restart: always

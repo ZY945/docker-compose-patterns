@@ -1,0 +1,41 @@
+services:
+  elasticsearch:
+    image: "docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2"
+    container_name: elasticsearch_001
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      node.name: es01
+      discovery.type: single-node
+      cluster.name: mycluster
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    volumes:
+      - ${DOCKER_DATA_PATH}/skywalking/elasticsearch/data/:/usr/share/elasticsearch/data/
+      - ${DOCKER_DATA_PATH}/skywalking/elasticsearch/logs/:/usr/share/elasticsearch/logs/
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:  # 网络配置
+      - docker-dev-network  # 加入到 docker-dev-network 网络
+  kibana:
+    image: docker.elastic.co/kibana/kibana-oss:7.10.2
+    container_name: kibana_001
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+      - "9600:9600"
+    environment:
+      SERVERNAME: kibana
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ES_JAVA_OPTS: -Xmx512m -Xms512m
+    networks:  # 网络配置
+      - docker-dev-network  # 加入到 docker-dev-network 网络
+
+networks:  # 网络
+  docker-dev-network:
+      # 如果不存在,就注释external: true,那么会创建先该网络
+      # 否则提示:network docker-dev-network declared as external, but could not be found
+      external: true # 表示网络已存在,无需再次创建.     

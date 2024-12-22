@@ -1,0 +1,19 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: redis-server
+    platform : ${PLATFORM}
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - ${DOCKER_DATA_PATH}/redis/data:/data
+    command: redis-server --appendonly yes --requirepass 123456
+    # restart: always
+    networks:  # 网络配置
+      - docker-dev-network  # 加入到 docker-dev-network 网络
+
+networks:  # 网络
+  docker-dev-network:
+      # 如果不存在,就注释external: true,那么会创建先该网络
+      # 否则提示:network docker-dev-network declared as external, but could not be found
+      external: true # 表示网络已存在,无需再次创建.

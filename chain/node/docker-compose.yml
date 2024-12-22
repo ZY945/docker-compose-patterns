@@ -1,0 +1,24 @@
+services:
+  node:
+    # 基于ubuntu打包的镜像
+    image: ubuntu-chain-node:1.0.0
+    container_name: node1
+    # platform : ${PLATFORM}
+    # 打开终端-不添加会启动失败
+    tty: true
+    ports:
+      - "8020:8020"
+      - "8030:8030"
+    volumes:
+      # - ${DOCKER_DATA_PATH}/chain/node/节点名:/usr/app/node
+      - ${DOCKER_DATA_PATH}/chain/node1/:/usr/app/node
+    # restart: always
+    networks:  # 网络配置
+      docker-dev-network:  # 加入到 docker-dev-network 网络
+         ipv4_address: 172.18.0.10 # 固定ip
+
+networks:  # 网络
+  docker-dev-network:
+      # 如果不存在,就注释external: true,那么会创建先该网络
+      # 否则提示:network docker-dev-network declared as external, but could not be found
+      external: true # 表示网络已存在,无需再次创建.

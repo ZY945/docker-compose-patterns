@@ -1,0 +1,25 @@
+services:
+  ubuntu:
+    # 基于ubuntu打包的镜像
+    image: ubuntu:16.04
+    container_name: ubuntu
+    platform : ${PLATFORM}
+    # 打开终端-不添加会启动失败
+    tty: true
+   #  ports:
+      # - "10022:22"
+   #  volumes:
+      # - ${DOCKER_DATA_PATH}/ubuntu/ubuntu1/:/usr/app/node
+    # restart: always
+    networks:  # 网络配置
+      docker-dev-network:  # 加入到 docker-dev-network 网络
+         ipv4_address: 172.18.0.8 # 固定ip
+
+networks:  # 网络
+  docker-dev-network:
+      # 如果不存在,就注释external: true,那么会创建先该网络
+      # 否则提示:network docker-dev-network declared as external, but could not be found
+      external: true # 表示网络已存在,无需再次创建.
+      ipam:
+         config:
+         - subnet: 172.18.0.1/16 # 固定网段
