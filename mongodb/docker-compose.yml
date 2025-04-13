@@ -19,8 +19,10 @@ services:
     volumes:
       - ${DOCKER_DATA_PATH}/mongo/data:/data/db
     # 增加启动参数，--auth，表示连接 mongodb 需要用户名和密码
-    command:
-      - "--auth"
+    # command:
+    # - "--auth"
+    command: mongod --bind_ip_all  # 允许外部连接
+    # restart: unless-stopped  # 容器停止时自动重启，除非手动停止
     networks:  # 网络配置
       - docker-dev-network  # 加入到 docker-dev-network 网络
 
